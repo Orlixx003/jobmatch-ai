@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 
 from jobmatch import analyze_match, read_cv
 from jobmatch.cv_reader import CVReadError
+from jobmatch.demo import DEMO_RESULT, demo_inputs
 
 load_dotenv()
 
@@ -20,6 +21,11 @@ st.caption("Upload your CV, paste a job offer — get a match score, skill gaps 
 
 with st.sidebar:
     st.header("Settings")
+    demo = st.toggle(
+        "Demo mode",
+        value=os.getenv("JOBMATCH_DEMO") == "1",
+        help="Shows a sample analysis of the files in examples/. No API key needed.",
+    )
     api_key = st.text_input(
         "Anthropic API key",
         value=os.getenv("ANTHROPIC_API_KEY", ""),
@@ -32,29 +38,40 @@ with st.sidebar:
         format_func={"pl": "Polski", "en": "English", "uk": "Українська"}.get,
     )
 
-cv_file = st.file_uploader("Your CV", type=["pdf", "docx", "txt", "md"])
-job_text = st.text_area("Job offer", height=220, placeholder="Paste the full job description here…")
+if demo:
+    demo_cv, demo_job = demo_inputs()
+    st.info("Demo mode: sample CV and job offer from `examples/`, with a pre-made result.")
+    with st.expander("Sample CV"):
+        st.text(demo_cv)
+    cv_file = None
+    job_text = st.text_area("Job offer", demo_job, height=220)
+else:
+    cv_file = st.file_uploader("Your CV", type=["pdf", "docx", "txt", "md"])
+    job_text = st.text_area("Job offer", height=220, placeholder="Paste the full job description here…")
 
 if st.button("Analyse", type="primary", use_container_width=True):
-    if not api_key:
-        st.error("Add your Anthropic API key in the sidebar.")
-        st.stop()
-    if cv_file is None or not job_text.strip():
-        st.error("Upload a CV and paste a job offer.")
-        st.stop()
-
-    try:
-        cv_text = read_cv(cv_file, filename=cv_file.name)
-    except CVReadError as exc:
-        st.error(str(exc))
-        st.stop()
-
-    with st.spinner("Analysing with Claude…"):
-        try:
-            result = analyze_match(cv_text, job_text, language, api_key=api_key)
-        except Exception as exc:
-            st.error(f"Analysis failed: {exc}")
+    if demo:
+        result = DEMO_RESULT
+    else:
+        if not api_key:
+            st.error("Add your Anthropic API key in the sidebar, or turn on Demo mode.")
             st.stop()
+        if cv_file is None or not job_text.strip():
+            st.error("Upload a CV and paste a job offer.")
+            st.stop()
+
+        try:
+            cv_text = read_cv(cv_file, filename=cv_file.name)
+        except CVReadError as exc:
+            st.error(str(exc))
+            st.stop()
+
+        with st.spinner("Analysing with Claude…"):
+            try:
+                result = analyze_match(cv_text, job_text, language, api_key=api_key)
+            except Exception as exc:
+                st.error(f"Analysis failed: {exc}")
+                st.stop()
 
     st.metric("Match score", f"{result.score}/100")
     st.progress(result.score / 100)
