@@ -13,7 +13,10 @@
 
 Built because I'm applying for junior AI/IT roles in Poland myself and wanted a faster way to tailor each application.
 
+![JobMatch AI screenshot](docs/screenshot-result.png)
+
 ## How it works
+
 
 ```
 CV (PDF/DOCX/TXT) ──► text extraction ──┐
