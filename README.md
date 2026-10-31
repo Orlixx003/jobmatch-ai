@@ -85,4 +85,4 @@ Your API key and CV are never stored. `.env` and files named `my_cv.*` are in `.
 
 ## Author
 
-**Mykhailo Ivanyshyn** — Programowanie student at WSB Merito, Warsaw · [GitHub](https://github.com/Orlixx003)
+Orlixx · [GitHub](https://github.com/Orlixx003)
