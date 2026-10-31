@@ -1,0 +1,15 @@
+Junior AI Developer (Warszawa, hybrid)
+
+Requirements:
+- Python and good knowledge of Git
+- Experience with LLM APIs (OpenAI, Anthropic) and prompt engineering
+- Basic SQL
+- Docker and basic cloud knowledge (AWS or GCP)
+- English B2+
+
+Nice to have:
+- LangChain or similar frameworks
+- Experience with vector databases
+- Polish language
+
+We offer: umowa o pracę, mentoring, training budget.

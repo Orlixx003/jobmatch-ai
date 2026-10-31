@@ -1,0 +1,16 @@
+Jan Kowalski — Junior Python Developer
+Warszawa | github.com/jan-example
+
+EDUCATION
+WSB Merito Warszawa — Programowanie (in progress)
+
+SKILLS
+Python, SQL (PostgreSQL), Git, HTML/CSS, basic JavaScript, REST APIs, OpenAI/Anthropic API
+
+PROJECTS
+- Telegram bot for appointment booking (Python, aiogram, SQLite)
+- Landing pages for small businesses (HTML, CSS, JS, Netlify)
+- AI text tool using the Claude API
+
+LANGUAGES
+Polish B2, English B2, Ukrainian native
